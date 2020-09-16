@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTpModule5", "AppTpModule5\AppTpModule5.csproj", "{D61C94E4-281C-4716-88C4-294695E0DC15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D61C94E4-281C-4716-88C4-294695E0DC15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61C94E4-281C-4716-88C4-294695E0DC15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61C94E4-281C-4716-88C4-294695E0DC15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61C94E4-281C-4716-88C4-294695E0DC15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33E81519-F46E-4A2F-AC5F-A64B78B992A7}
+	EndGlobalSection
+EndGlobal
