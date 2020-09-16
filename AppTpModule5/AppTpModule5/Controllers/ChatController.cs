@@ -9,24 +9,41 @@ namespace AppTpModule5.Controllers
 {
     public class ChatController : Controller
     {
+        static List<Chat> ListedeChats;
+
+        public ChatController()
+        {
+            if(ListedeChats==null)
+            {
+                ListedeChats = Chat.GetMeuteDeChats();
+            }
+        }
         // GET: Chat
         public ActionResult Index()
         {
-            var ListChat = new List<Chat>();
-            ListChat = Chat.GetMeuteDeChats();
-            return View(ListChat);
+            return View(ListedeChats);
         }
 
         // GET: Chat/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var Chat = ListedeChats.FirstOrDefault(I => I.Id == id);
+            if (Chat != null)
+            {
+                return View(Chat);
+            }
+            return RedirectToAction("Index");
         }
 
         // GET: Chat/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var Chat = ListedeChats.FirstOrDefault(I => I.Id == id);
+            if(Chat != null)
+            {
+                return View(Chat);
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Chat/Delete/5
@@ -35,14 +52,39 @@ namespace AppTpModule5.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
+                var Chat = ListedeChats.FirstOrDefault(I => I.Id == id);
+                if (Chat != null)
+                {
+                    ListedeChats.Remove(Chat);
+                }
                 return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
+        }
+
+        // GET: Chat/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var Chat = ListedeChats.FirstOrDefault(I => I.Id == id);
+            if (Chat != null)
+            {
+                return View(Chat);
+            }
+            return RedirectToAction("Index");
+        }
+
+        // POST: Chat/Edit/5
+        [HttpPost]
+        public ActionResult Edit(Chat chat)
+        {
+            Chat Chat = ListedeChats.FirstOrDefault(I => I.Id == chat.Id);
+            Chat.Nom = chat.Nom;
+            Chat.Couleur = chat.Couleur;
+            Chat.Age = chat.Age;
+            return RedirectToAction("Index");
         }
     }
 }

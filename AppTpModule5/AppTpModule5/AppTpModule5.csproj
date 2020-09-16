@@ -177,6 +177,7 @@
     <Content Include="Views\Chat\Details.cshtml" />
     <Content Include="Views\Chat\Delete.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Chat\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
