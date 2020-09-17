@@ -46,7 +46,14 @@ namespace Module5TpPizza.Controllers
         // GET: Pizza/Create
         public ActionResult Create()
         {
-            return View();
+            var pizz = new Pizza();
+             tab =
+            new List<object> {
+                Pizza.IngredientsDisponibles,
+                Pizza.PatesDisponibles,
+                pizz
+            };
+            return View(tab);
         }
 
         // POST: Pizza/Create
