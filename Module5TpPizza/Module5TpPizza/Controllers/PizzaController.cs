@@ -1,4 +1,5 @@
 ﻿using BO;
+using Module5TpPizza.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,8 @@ namespace Module5TpPizza.Controllers
         // GET: Pizza/Details/5
         public ActionResult Details(int id)
         {
-            var Pizza = listpizza.FirstOrDefault(i => i.Id == id);
+            Pizza Pizza = listpizza.FirstOrDefault(i => i.Id == id);
+
             if (Pizza == null)
             {
                 return RedirectToAction("Index");
@@ -46,37 +48,26 @@ namespace Module5TpPizza.Controllers
         // GET: Pizza/Create
         public ActionResult Create()
         {
-            var pizz = new Pizza();
-             tab =
-            new List<object> {
-                Pizza.IngredientsDisponibles,
-                Pizza.PatesDisponibles,
-                pizz
-            };
-            return View(tab);
+            CreatePizzaModelView viewPizza = new CreatePizzaModelView { 
+            ListeIngredient = Pizza.IngredientsDisponibles,
+            Pates = Pizza.PatesDisponibles};
+
+            return View(viewPizza);
         }
 
         // POST: Pizza/Create
         [HttpPost]
-        public ActionResult Create(Pizza pizza)
+        public ActionResult Create(CreatePizzaModelView CreatePizza)
         {
             try
             {
-                var listeIngreselected = new List<Ingredient>();
-                var PateSelected = pate.FirstOrDefault(p => p.Id.ToString().Equals(pizza.Pate.Id));
-                foreach(var inge in pizza.Ingredients)
-                {
-                    listeIngreselected.Add(ingredients.FirstOrDefault(p => p.Id.ToString().Equals(inge.Id)));
-                };
-                listpizza.Add(
-                    new Pizza
-                    {
-                        Id = idPizza,
-                        Nom = pizza.Nom,
-                        Pate = PateSelected,
-                        Ingredients = listeIngreselected
-                    }); ; ;
-                
+                Pizza pizzCreate = CreatePizza.pizza;
+                pizzCreate.Pate = pate.FirstOrDefault(pate => pate.Id == CreatePizza.IdPate);
+                pizzCreate.Ingredients = ingredients.Where(i => CreatePizza.ListIdIngredients.Contains(i.Id)).ToList();
+                pizzCreate.Nom = CreatePizza.pizza.Nom;
+                pizzCreate.Id = idPizza;
+
+                listpizza.Add(pizzCreate);
                 idPizza++;
                 return RedirectToAction("Index");
             }
@@ -89,34 +80,36 @@ namespace Module5TpPizza.Controllers
         // GET: Pizza/Edit/5
         public ActionResult Edit(int id)
         {
-            var Pizza = listpizza.FirstOrDefault(i => i.Id == id);
-            if (Pizza == null)
+            CreatePizzaModelView viewPizza = new CreatePizzaModelView
             {
-                return RedirectToAction("Index");
+                ListeIngredient = Pizza.IngredientsDisponibles,
+                Pates = Pizza.PatesDisponibles
+            };
+            viewPizza.pizza = listpizza.FirstOrDefault(i => i.Id == id);
+
+            if (viewPizza.pizza.Pate != null)
+            {
+                viewPizza.IdPate = viewPizza.pizza.Pate.Id;
             }
             
-            return View(Pizza);
+            if (viewPizza.pizza.Ingredients.Any())
+            {
+                viewPizza.ListIdIngredients = viewPizza.pizza.Ingredients.Select(i => i.Id).ToList();
+            }
+            return View(viewPizza);
         }
 
         // POST: Pizza/Edit/5
         [HttpPost]
-        public ActionResult Edit(Pizza pizza)
+        public ActionResult Edit(CreatePizzaModelView EditPizza)
         {
             try
             {
-                var listeIngreselected = new List<Ingredient>();
-                var PateSelected = pate.FirstOrDefault(p => p.Id == pizza.Pate.Id);
-                foreach (var inge in pizza.Ingredients)
-                {
-                    listeIngreselected.Add(ingredients.FirstOrDefault(p => p.Id == inge.Id));
-                };
-                listpizza.Add(
-                    new Pizza
-                    {
-                        Nom = pizza.Nom,
-                        Pate = PateSelected,
-                        Ingredients = listeIngreselected
-                    }); ; ;
+                Pizza pizzaEdit = listpizza.FirstOrDefault(p => p.Id == EditPizza.pizza.Id);
+                pizzaEdit.Nom = EditPizza.pizza.Nom;
+                pizzaEdit.Ingredients = ingredients.Where(i => EditPizza.ListIdIngredients.Contains(i.Id)).ToList();
+                pizzaEdit.Pate = pate.FirstOrDefault(pate => pate.Id == EditPizza.IdPate);
+
                 return RedirectToAction("Index");
             }
             catch

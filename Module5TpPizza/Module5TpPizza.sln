@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module5TpPizza", "Module5TpPizza\Module5TpPizza.csproj", "{CB36B3F2-3DBB-428F-8B7B-E7B65963CD5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BO", "I:\Téléchargements\Cours 250 - Module 5\Module 05 - Énoncé TP 02 - Les pizzas - partie 1\Ressources Module 05 - Enoncé TP 02\BO.csproj", "{6066EAAA-6025-49BC-A1F3-FC6447C42CD9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BO", "..\..\BO.csproj", "{6066EAAA-6025-49BC-A1F3-FC6447C42CD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

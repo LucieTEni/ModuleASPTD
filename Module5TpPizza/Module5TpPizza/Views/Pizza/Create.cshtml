@@ -1,11 +1,4 @@
-﻿
-@model ; 
-
-@{
-    var ListePate = Model.
-    ListePate = BO.Pizza.PatesDisponibles;
-    var ListeIngredient = BO.Pizza.IngredientsDisponibles;
-}
+﻿@model Module5TpPizza.Models.CreatePizzaModelView
 
 @using (Html.BeginForm())
 {
@@ -16,24 +9,24 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.pizza.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.pizza.Nom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.pizza.Nom, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Pate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.pizza.Pate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(m => m.Pate, ListePate.Select(s => new SelectListItem {Text=s.Nom}));
+                @Html.DropDownListFor(m => m.IdPate, Model.Pates.Select(s => new SelectListItem { Text = s.Nom, Value = s.Id.ToString() }))
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Ingredients, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.pizza.Ingredients, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.ListBoxFor(m => m.Ingredients, ListeIngredient.Select(s => new SelectListItem{Text=s.Nom, Value=s.Id.ToString()}));
+                @Html.ListBoxFor(m => m.ListIdIngredients, Model.ListeIngredient.Select(s => new SelectListItem{Text=s.Nom, Value=s.Id.ToString()}).ToList())
             </div>
         </div>
         <div class="form-group">
