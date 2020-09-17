@@ -1,0 +1,49 @@
+﻿@model BO.Pizza
+
+@{ 
+    var Ingredient = Model.Ingredients;
+}
+<div>
+    <h4>Pizza</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Pate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pate.Nom)
+        </dd>
+
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ingredients)
+        </dt>
+
+        <div>
+            @foreach (var item in Model.Ingredients)
+            {
+                <dd>
+                    @Html.DisplayFor(modelitem => item.Nom);
+                </dd>
+            }
+        </div>
+     </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
