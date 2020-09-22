@@ -1,5 +1,6 @@
 ﻿using BO;
 using Module5TpPizza.Models;
+using Module5TpPizza.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,14 @@ namespace Module5TpPizza.Controllers
 {
     public class PizzaController : Controller
     {
-        static List<Pizza> listpizza;
-        static List<Ingredient> ingredients = Pizza.IngredientsDisponibles;
-        static List<Pate> pate = Pizza.PatesDisponibles;
+        public List<Pizza> listpizza { get; set; }
         static int idPizza;
         public PizzaController()
         {
             if(listpizza == null)
             {
                 idPizza = 0;
-                listpizza = new List<Pizza>();
+                listpizza = new FakeDBPizza().ListDePizza;
             }
         }
 
@@ -48,9 +47,11 @@ namespace Module5TpPizza.Controllers
         // GET: Pizza/Create
         public ActionResult Create()
         {
-            CreatePizzaModelView viewPizza = new CreatePizzaModelView { 
-            ListeIngredient = Pizza.IngredientsDisponibles,
-            Pates = Pizza.PatesDisponibles};
+            CreatePizzaModelView viewPizza = new CreatePizzaModelView 
+            { 
+                ListeIngredient = new FakeDBPizza().ListeIngredientsDisponibles,
+                Pates = new FakeDBPizza().ListeDePatesDisponibles
+            };
 
             return View(viewPizza);
         }
@@ -62,8 +63,8 @@ namespace Module5TpPizza.Controllers
             try
             {
                 Pizza pizzCreate = CreatePizza.pizza;
-                pizzCreate.Pate = pate.FirstOrDefault(pate => pate.Id == CreatePizza.IdPate);
-                pizzCreate.Ingredients = ingredients.Where(i => CreatePizza.ListIdIngredients.Contains(i.Id)).ToList();
+                pizzCreate.Pate = new FakeDBPizza().ListeDePatesDisponibles.FirstOrDefault(pate => pate.Id == CreatePizza.IdPate);
+                pizzCreate.Ingredients = new FakeDBPizza().ListeIngredientsDisponibles.Where(i => CreatePizza.ListIdIngredients.Contains(i.Id)).ToList();
                 pizzCreate.Nom = CreatePizza.pizza.Nom;
                 pizzCreate.Id = idPizza;
 
@@ -82,8 +83,8 @@ namespace Module5TpPizza.Controllers
         {
             CreatePizzaModelView viewPizza = new CreatePizzaModelView
             {
-                ListeIngredient = Pizza.IngredientsDisponibles,
-                Pates = Pizza.PatesDisponibles
+                ListeIngredient = new FakeDBPizza().ListeIngredientsDisponibles,
+                Pates = new FakeDBPizza().ListeDePatesDisponibles
             };
             viewPizza.pizza = listpizza.FirstOrDefault(i => i.Id == id);
 
@@ -107,8 +108,8 @@ namespace Module5TpPizza.Controllers
             {
                 Pizza pizzaEdit = listpizza.FirstOrDefault(p => p.Id == EditPizza.pizza.Id);
                 pizzaEdit.Nom = EditPizza.pizza.Nom;
-                pizzaEdit.Ingredients = ingredients.Where(i => EditPizza.ListIdIngredients.Contains(i.Id)).ToList();
-                pizzaEdit.Pate = pate.FirstOrDefault(pate => pate.Id == EditPizza.IdPate);
+                pizzaEdit.Ingredients = new FakeDBPizza().ListeIngredientsDisponibles.Where(i => EditPizza.ListIdIngredients.Contains(i.Id)).ToList();
+                pizzaEdit.Pate = new FakeDBPizza().ListeDePatesDisponibles.FirstOrDefault(pate => pate.Id == EditPizza.IdPate);
 
                 return RedirectToAction("Index");
             }
