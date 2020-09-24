@@ -41,6 +41,7 @@ namespace WebApplication2.Controllers
         public ActionResult Create()
         {
             CreateSamouraiView CNewS = new CreateSamouraiView();
+            CNewS.ListeArmes = db.Armes.ToList();
             return View(CNewS);
         }
 
@@ -51,10 +52,18 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateSamouraiView CNewS)
         {
-            Arme arme = CNewS.ListeArmes.FirstOrDefault(i => i.Id == CNewS.IdArmes);
-            CNewS.Samourai.Arme = arme;
+            
             if (ModelState.IsValid)
             {
+                if (CNewS.IdArmes != null)
+                {
+                    Arme arme = db.Armes.FirstOrDefault(i => i.Id == CNewS.IdArmes);
+                    CNewS.Samourai.Arme = arme;
+                }
+                else
+                {
+                    CNewS.Samourai.Arme = null;
+                }
                 db.Samourais.Add(CNewS.Samourai);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -75,14 +84,18 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
-            CreateSamouraiView CNewS = new CreateSamouraiView();
-            CNewS.Samourai = new Samourai
+            CreateSamouraiView CNewS = new CreateSamouraiView
             {
-                Id = samourai.Id,
-                Nom = samourai.Nom,
-                Force = samourai.Force,
-                Arme = samourai.Arme
+                Samourai = new Samourai
+                {
+                    Id = samourai.Id,
+                    Nom = samourai.Nom,
+                    Force = samourai.Force,
+                    Arme = samourai.Arme
+                }
             };
+
+            CNewS.ListeArmes = db.Armes.ToList();
             return View(CNewS);
         }
 
@@ -96,10 +109,17 @@ namespace WebApplication2.Controllers
             if (ModelState.IsValid)
             {
                 Samourai samourai = db.Samourais.Find(CEditS.Samourai.Id);
-                Arme arme = CEditS.ListeArmes.FirstOrDefault(i => i.Id == CEditS.IdArmes);
                 samourai.Nom = CEditS.Samourai.Nom;
                 samourai.Force = CEditS.Samourai.Force;
-                samourai.Arme = arme;
+                if(CEditS.IdArmes != null)
+                {
+                    Arme arme = db.Armes.FirstOrDefault(i => i.Id == CEditS.IdArmes);
+                    samourai.Arme = arme;
+                } else
+                {
+                    samourai.Arme = null;
+                }
+                
                 db.Entry(samourai).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

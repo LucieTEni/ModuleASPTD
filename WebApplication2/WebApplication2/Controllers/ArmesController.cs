@@ -97,12 +97,28 @@ namespace WebApplication2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            if(this.DeleteCheck(id))
+            {
+                return View();
+            }
             Arme arme = db.Armes.Find(id);
             if (arme == null)
             {
                 return HttpNotFound();
             }
             return View(arme);
+        }
+
+        private bool DeleteCheck(int? id)
+        {
+            bool result = false;
+            List<int> Ids = db.Samourais.Include(a => a.Arme).Where(i => i.Arme != null).Select(i => i.Arme.Id).ToList();
+            if(Ids.Contains(id.Value))
+            {
+                result = true;
+                ModelState.AddModelError("", "L'arme ne peut pas être supprimée elle appartient à un samourai");
+            }
+            return result;
         }
 
         // POST: Armes/Delete/5
