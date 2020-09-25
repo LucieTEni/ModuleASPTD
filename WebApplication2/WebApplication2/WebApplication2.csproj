@@ -146,6 +146,14 @@
     <Compile Include="Migrations\202009251257194_third.Designer.cs">
       <DependentUpon>202009251257194_third.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009251413497_four.cs" />
+    <Compile Include="Migrations\202009251413497_four.Designer.cs">
+      <DependentUpon>202009251413497_four.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009251451054_five.cs" />
+    <Compile Include="Migrations\202009251451054_five.Designer.cs">
+      <DependentUpon>202009251451054_five.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CreateSamouraiView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -233,6 +241,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009251257194_third.resx">
       <DependentUpon>202009251257194_third.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009251413497_four.resx">
+      <DependentUpon>202009251413497_four.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009251451054_five.resx">
+      <DependentUpon>202009251451054_five.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

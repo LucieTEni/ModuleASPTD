@@ -114,13 +114,14 @@ namespace WebApplication2.Controllers
                     Id = samourai.Id,
                     Nom = samourai.Nom,
                     Force = samourai.Force,
-                    Arme = samourai.Arme,
-                    ArtMartials = samourai.ArtMartials
+                    Arme = samourai.Arme
                 }
             };
 
             List<int> ListIdArme = db.Samourais.Where(a => a.Arme != null).Select(x => x.Arme.Id).ToList();
             CNewS.ListeArmes = db.Armes.Where(x => !ListIdArme.Contains(x.Id)).ToList();
+            CNewS.IdArtsMartiaux = db.ArtMartials.Select(x => x.Id).ToList();
+            CNewS.ArtMartials = db.ArtMartials.ToList();
             return View(CNewS);
         }
 
@@ -136,23 +137,23 @@ namespace WebApplication2.Controllers
                 Samourai samourai = db.Samourais.Find(CEditS.Samourai.Id);
                 samourai.Nom = CEditS.Samourai.Nom;
                 samourai.Force = CEditS.Samourai.Force;
-                if(CEditS.IdArmes != null)
+                if (CEditS.IdArtsMartiaux.Count > 0)
+                {
+                    samourai.ArtMartials = db.ArtMartials.Where(x => CEditS.IdArtsMartiaux.Contains(x.Id)).ToList();
+                }
+                else
+                {
+                    samourai.ArtMartials = null;
+                }
+                if (CEditS.IdArmes != null)
                 {
                     Arme arme = db.Armes.FirstOrDefault(i => i.Id == CEditS.IdArmes);
                     samourai.Arme = arme;
+                    samourai.Potentiel = (samourai.Force + samourai.Arme.Degats) * (samourai.ArtMartials.Count + 1);
                 } else
                 {
                     samourai.Arme = null;
                 }
-                if (CEditS.IdArtsMartiaux.Count > 0)
-                {
-                    CEditS.Samourai.ArtMartials = db.ArtMartials.Where(x => CEditS.IdArtsMartiaux.Contains(x.Id)).ToList();
-                }
-                else
-                {
-                    CEditS.Samourai.ArtMartials = null;
-                }
-                CEditS.Samourai.Potentiel = (CEditS.Samourai.Force + CEditS.Samourai.Arme.Degats) * (CEditS.Samourai.ArtMartials.Count + 1);
                 db.Entry(samourai).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

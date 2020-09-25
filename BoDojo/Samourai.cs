@@ -11,7 +11,7 @@ namespace BO
         public string Nom { get; set; }
         
         public virtual Arme Arme { get; set; }
-        public virtual List<ArtMartial> ArtMartials { get; set; }
+        public virtual List<ArtMartial> ArtMartials { get; set; } = new List<ArtMartial>();
 
         public int Potentiel { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -24,5 +25,11 @@ namespace WebApplication2.Data
         public System.Data.Entity.DbSet<BO.Samourai> Samourais { get; set; }
 
         public System.Data.Entity.DbSet<BO.ArtMartial> ArtMartials { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Samourai>().HasMany(x => x.ArtMartials).WithMany();
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
