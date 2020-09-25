@@ -142,6 +142,10 @@
     <Compile Include="Migrations\202009251232315_deuxie.Designer.cs">
       <DependentUpon>202009251232315_deuxie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009251257194_third.cs" />
+    <Compile Include="Migrations\202009251257194_third.Designer.cs">
+      <DependentUpon>202009251257194_third.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CreateSamouraiView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -226,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009251232315_deuxie.resx">
       <DependentUpon>202009251232315_deuxie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009251257194_third.resx">
+      <DependentUpon>202009251257194_third.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

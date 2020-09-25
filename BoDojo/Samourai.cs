@@ -12,5 +12,7 @@ namespace BO
         
         public virtual Arme Arme { get; set; }
         public virtual List<ArtMartial> ArtMartials { get; set; }
+
+        public int Potentiel { get; set; }
     }
 }

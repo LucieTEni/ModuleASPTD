@@ -34,7 +34,20 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
-            return View(samourai);
+
+            CreateSamouraiView CNewS = new CreateSamouraiView
+            {
+                Samourai = new Samourai
+                {
+                    Id = samourai.Id,
+                    Nom = samourai.Nom,
+                    Force = samourai.Force,
+                    Arme = samourai.Arme,
+                    ArtMartials = samourai.ArtMartials,
+                    Potentiel = samourai.Potentiel
+                }
+            };
+            return View(CNewS);
         }
 
         // GET: Samourais/Create
@@ -43,6 +56,7 @@ namespace WebApplication2.Controllers
             CreateSamouraiView CNewS = new CreateSamouraiView();
             List<int> ListIdArme = db.Samourais.Where(a => a.Arme != null).Select(x => x.Arme.Id).ToList();
             CNewS.ListeArmes = db.Armes.Where(x => !ListIdArme.Contains(x.Id)).ToList();
+            CNewS.ArtMartials = db.ArtMartials.ToList();
             return View(CNewS);
         }
 
@@ -65,6 +79,14 @@ namespace WebApplication2.Controllers
                 {
                     CNewS.Samourai.Arme = null;
                 }
+                if(CNewS.IdArtsMartiaux.Count > 0)
+                {
+                    CNewS.Samourai.ArtMartials = db.ArtMartials.Where(x => CNewS.IdArtsMartiaux.Contains(x.Id)).ToList();
+                } else
+                {
+                    CNewS.Samourai.ArtMartials = null;
+                }
+                CNewS.Samourai.Potentiel = (CNewS.Samourai.Force + CNewS.Samourai.Arme.Degats) * (CNewS.Samourai.ArtMartials.Count + 1);
                 db.Samourais.Add(CNewS.Samourai);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -92,7 +114,8 @@ namespace WebApplication2.Controllers
                     Id = samourai.Id,
                     Nom = samourai.Nom,
                     Force = samourai.Force,
-                    Arme = samourai.Arme
+                    Arme = samourai.Arme,
+                    ArtMartials = samourai.ArtMartials
                 }
             };
 
@@ -121,7 +144,15 @@ namespace WebApplication2.Controllers
                 {
                     samourai.Arme = null;
                 }
-                
+                if (CEditS.IdArtsMartiaux.Count > 0)
+                {
+                    CEditS.Samourai.ArtMartials = db.ArtMartials.Where(x => CEditS.IdArtsMartiaux.Contains(x.Id)).ToList();
+                }
+                else
+                {
+                    CEditS.Samourai.ArtMartials = null;
+                }
+                CEditS.Samourai.Potentiel = (CEditS.Samourai.Force + CEditS.Samourai.Arme.Degats) * (CEditS.Samourai.ArtMartials.Count + 1);
                 db.Entry(samourai).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
