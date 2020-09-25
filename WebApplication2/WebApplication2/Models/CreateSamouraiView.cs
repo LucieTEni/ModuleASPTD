@@ -15,5 +15,8 @@ namespace WebApplication2.Models
             get; set;
         }
         public int? IdArmes { get; set; }
+
+        public List<ArtMartial> ArtMartials { get; set; }
+        public List<int> IdArtsMartiaux { get; set; }
     }
 }

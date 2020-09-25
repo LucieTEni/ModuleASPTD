@@ -3,12 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BO
 {
-    public class Arme
+    public class Arme: IdGenerated
     {
-        [Key]
-        [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         public string Nom { get; set; }
         public int Degats { get; set; }
     }

@@ -41,7 +41,8 @@ namespace WebApplication2.Controllers
         public ActionResult Create()
         {
             CreateSamouraiView CNewS = new CreateSamouraiView();
-            CNewS.ListeArmes = db.Armes.ToList();
+            List<int> ListIdArme = db.Samourais.Where(a => a.Arme != null).Select(x => x.Arme.Id).ToList();
+            CNewS.ListeArmes = db.Armes.Where(x => !ListIdArme.Contains(x.Id)).ToList();
             return View(CNewS);
         }
 
@@ -95,7 +96,8 @@ namespace WebApplication2.Controllers
                 }
             };
 
-            CNewS.ListeArmes = db.Armes.ToList();
+            List<int> ListIdArme = db.Samourais.Where(a => a.Arme != null).Select(x => x.Arme.Id).ToList();
+            CNewS.ListeArmes = db.Armes.Where(x => !ListIdArme.Contains(x.Id)).ToList();
             return View(CNewS);
         }
 
@@ -139,15 +141,26 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
-            return View(samourai);
+
+            CreateSamouraiView CNewS = new CreateSamouraiView
+            {
+                Samourai = new Samourai
+                {
+                    Id = samourai.Id,
+                    Nom = samourai.Nom,
+                    Force = samourai.Force,
+                    Arme = samourai.Arme
+                }
+            };
+            return View(CNewS);
         }
 
         // POST: Samourais/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(CreateSamouraiView delateO)
         {
-            Samourai samourai = db.Samourais.Find(id);
+            Samourai samourai = db.Samourais.Find(delateO.Samourai.Id);
             db.Samourais.Remove(samourai);
             db.SaveChanges();
             return RedirectToAction("Index");
